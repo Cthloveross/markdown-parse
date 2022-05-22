@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import javax.xml.stream.events.StartDocument;
+
 public class MarkdownParseTest {
 
     @Test
@@ -64,4 +66,25 @@ public class MarkdownParseTest {
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
     
+    @Test
+    public void testforsnip1() throws IOException{
+        String contents = Files.readString(Path.of("snippet1.md"));
+        List<String> expect = List.of("`google.com", "google.com", "ucsd.edu");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+
+    @Test
+    public void testforsnip2() throws IOException{
+        String contents = Files.readString(Path.of("snippet2.md"));
+        List<String> expect = List.of("a.com", "a.com(())", "example.com");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+
+    @Test
+    public void testforsnip3() throws IOException{
+        String contents = Files.readString(Path.of("snippet3.md"));
+        List<String> expect = List.of("https://www.twitter.com", 
+        "https://sites.google.com/eng.ucsd.edu/cse-15l-spring-2022/schedule", "https://cse.ucsd.edu/");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
 }
